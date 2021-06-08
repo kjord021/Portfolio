@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.IdentityModel.Protocols;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace LinkShortner.Database
 
         public DbSet<Link> links { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-                => options.UseSqlite(@"Data Source=" + System.IO.Directory.GetCurrentDirectory() + "/links.db");
+        public LinksDbContext(DbContextOptions<LinksDbContext> options) : base(options) { }
 
     }
 

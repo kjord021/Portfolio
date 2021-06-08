@@ -14,9 +14,11 @@ namespace LinkShortner.Controllers
     {
 
         private readonly IConfiguration _config;
-        public LinksController(IConfiguration config)
+        private readonly LinksDbContext _context;
+        public LinksController(IConfiguration config, LinksDbContext context)
         {
             _config = config;
+            _context = context;
         }
 
         [HttpPost]
@@ -27,17 +29,15 @@ namespace LinkShortner.Controllers
 
             try
             {
-                using (var db = new LinksDbContext())
-                {
-                    var link = new Link();
-                    link.Url = url;
 
-                    await db.AddAsync(link);
-                    await db.SaveChangesAsync();
+                var link = new Link();
+                link.Url = url;
 
-                    id = link.Id;
+                await _context.AddAsync(link);
+                await _context.SaveChangesAsync();
 
-                }
+                id = link.Id;
+
             }
             catch (Exception e) 
             {
@@ -55,21 +55,18 @@ namespace LinkShortner.Controllers
 
             var url = "";
 
-            using (var db = new LinksDbContext())
+            var link = _context.links
+            .FirstOrDefault(l => l.Id == id);
+
+            if (link != null)
             {
-                var link = db.links
-                .FirstOrDefault(l => l.Id == id);
-
-                if (link != null)
-                {
-                    url = link.Url;
-                }
-                else 
-                {
-                    return BadRequest();
-                }
-
+                url = link.Url;
             }
+            else 
+            {
+                return BadRequest();
+            }
+
 
             return Redirect(url);
 
