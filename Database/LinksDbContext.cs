@@ -13,7 +13,7 @@ namespace LinkShortner.Database
         public DbSet<Link> links { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-                => options.UseSqlite(@"Data Source=C:\Databases\links.db");
+                => options.UseSqlite(@"Data Source=" + System.IO.Directory.GetCurrentDirectory() + "/links.db");
 
     }
 
