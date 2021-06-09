@@ -9,6 +9,11 @@ export default function ProjectMapper() {
             "description": "A simple app designed to shorten links. Made with ASP.Net (and SQL SERVER) on the backend, with a React frontend.",
             "link": "/LinkShortner"
         },
+        {
+            "title": "UniqueCodes",
+            "description": "A simple app designed to a fixed number of Unique Codes. This project was made with the intention of helping developers generate unique identifiers that can be used in their projects. Made with ASP.Net on the backend and React on the frontend.",
+            "link": "/UniqueCodes"
+        },
     ]
 
     return(
