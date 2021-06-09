@@ -60,14 +60,6 @@ export function UniqueCodes() {
         .then(data => {
         });
 
-        fetch('/UniqueCodes?fileName=' + fileName,
-                {
-                    method: "GET",
-                })
-        .then(response => response.text())
-        .then(data => {
-        });
-
       }
 
     return (

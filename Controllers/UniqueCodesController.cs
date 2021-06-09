@@ -10,6 +10,7 @@ using CsvHelper.Configuration;
 using System.Globalization;
 using Portfolio.Models;
 using System.Text;
+using Portfolio.Logic;
 
 namespace Portfolio.Controllers
 {
@@ -25,7 +26,7 @@ namespace Portfolio.Controllers
             var codes = new List<UniqueCode>();
             int x = 1;
 
-            while (x <= number) 
+            while (x <= number)
             {
                 Guid g = Guid.NewGuid();
                 codes.Add(new UniqueCode
@@ -38,48 +39,14 @@ namespace Portfolio.Controllers
                 x++;
             }
 
-
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            CsvMethods methods = new CsvMethods();
+            var result = methods.WriteCsvToMemory(codes);
+            var memoryStream = new MemoryStream(result);
+            return new FileStreamResult(memoryStream, "text/csv")
             {
-                NewLine = Environment.NewLine,
+                FileDownloadName = fileName
             };
 
-            using (var mem = new MemoryStream())
-            using (var writer = new StreamWriter(mem))
-            using (var csvWriter = new CsvWriter(writer, config))
-            {
-                csvWriter.WriteHeader<UniqueCode>();
-                csvWriter.NextRecord();
-                csvWriter.WriteRecords(codes);
-                writer.Flush();
-
-                var filePath = Directory.GetCurrentDirectory() + "/" + fileName;
-
-
-                System.IO.File.WriteAllBytes(filePath, mem.ToArray());
-
-                return PhysicalFile(filePath, "text/csv", fileName);
-
-            }
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteFile(string fileName)
-        {
-            try
-            {
-                var filePath = Directory.GetCurrentDirectory() + "/" + fileName;
-                System.IO.File.Delete(filePath);
-            }
-            catch(Exception e) 
-            {
-                return BadRequest(e);
-            }
-            
-
-            return Ok();
-        }
-
     }
 }
