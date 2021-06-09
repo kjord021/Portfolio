@@ -7,6 +7,20 @@ export function LinkForm(){
   const[url, setUrl] = useState("");
   const[isLinkCreated, setIsLinkCreated] = useState(false);
   const[responseUrl, setResponseUrl] = useState("");
+  const[enableButton, setEnableButton] = useState(false);
+  const[displayMessage, setDisplayMessage] = useState("");
+
+  function testSetURL(url) {
+    if ((url.startsWith('http://')  || url.startsWith('https://'))){
+        setDisplayMessage("");
+        setEnableButton(true);
+        setUrl(url);
+    }
+    else {
+      setDisplayMessage("URL must start with http:// or https://.");
+      setEnableButton(false);
+    }
+  }
 
   function sendPostRequest(e){
     e.preventDefault();
@@ -50,10 +64,12 @@ export function LinkForm(){
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="form-group mx-sm-3 mb-2">
                           <label for="inputURL" class="sr-only">URL</label>
-                          <input type="url" class="form-control" id="inputURL" placeholder="Please Enter a URL" onChange={e => setUrl(e.target.value)}/>
+                          <input type="url" class="form-control" id="inputURL" placeholder="Please Enter a URL" onChange={e => testSetURL(e.target.value)}/>
                         </div>
                         &nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-primary mb-2" onClick={sendPostRequest}>Create Link</button>
+                        {enableButton ? <button type="submit" class="btn btn-primary mb-2" onClick={sendPostRequest}>Create Link</button> : 
+                        <><button type="submit" class="btn btn-primary mb-2" onClick={sendPostRequest} disabled>Create Link</button>
+                        <p style={{color: "red"}}>{displayMessage}</p></>}
                       </form>
                       {isLinkCreated ? 
                         <div class="card">
