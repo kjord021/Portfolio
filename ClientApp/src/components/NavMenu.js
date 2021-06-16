@@ -22,6 +22,9 @@ export class NavMenu extends Component {
   }
 
   render () {
+
+    const uploadedFileLink = "/Files/KJResumeRevisedJUN2021.pdf";
+
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
@@ -32,6 +35,9 @@ export class NavMenu extends Component {
               <ul className="navbar-nav flex-grow">
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="text-dark" href={uploadedFileLink} download>Resume</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
