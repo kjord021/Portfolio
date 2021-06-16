@@ -1,6 +1,7 @@
 import Project from "./Project";
 import React, { Component } from 'react';
 
+
 export default function ProjectMapper() {
 
     const Projects = [
@@ -8,6 +9,11 @@ export default function ProjectMapper() {
             "title": "LinkShortner",
             "description": "A simple app designed to shorten links. Made with ASP.Net (and SQL SERVER) on the backend, with a React frontend.",
             "link": "/LinkShortner"
+        },
+        {
+            "title": "Kyle's Notepad",
+            "description": "A simple app designed to replicate and evetually extend the features of Notepad. Made with .Net Framework and System Windows Forms.",
+            "link": "/Notepad"
         },
         {
             "title": "UniqueCodes",
